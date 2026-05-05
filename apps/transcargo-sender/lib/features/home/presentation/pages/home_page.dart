@@ -16,15 +16,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = (context.read<AuthBloc>().state as AuthAuthenticated?)?.user;
-    final phone = user?.phone ?? ProfileStore.instance.phone.value;
     return Scaffold(
       backgroundColor: const Color(0xFFF6F8FB),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 140),
           children: [
-            _GreetingHeader(phone: phone),
+            const _GreetingHeader(),
             const SizedBox(height: 16),
             const _PromoCarousel(),
             const SizedBox(height: 20),
@@ -97,8 +95,21 @@ class HomePage extends StatelessWidget {
 // Greeting header with avatar + bell
 // ──────────────────────────────────────────────────────────────────
 class _GreetingHeader extends StatelessWidget {
-  const _GreetingHeader({required this.phone});
-  final String phone;
+  const _GreetingHeader();
+
+  String _formatPhone(String raw) {
+    var d = raw.replaceAll(RegExp(r'\D'), '');
+    if (d.startsWith('998')) d = d.substring(3);
+    if (d.length > 9) d = d.substring(0, 9);
+    if (d.isEmpty) return '';
+    final b = StringBuffer('+998');
+    if (d.isNotEmpty) b.write(' ${d.substring(0, d.length.clamp(0, 2))}');
+    if (d.length > 2) b.write(' ${d.substring(2, d.length.clamp(2, 5))}');
+    if (d.length > 5) b.write(' ${d.substring(5, d.length.clamp(5, 7))}');
+    if (d.length > 7) b.write(' ${d.substring(7, d.length.clamp(7, 9))}');
+    return b.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     final hour = DateTime.now().hour;
@@ -107,12 +118,20 @@ class _GreetingHeader extends StatelessWidget {
         : hour < 18
             ? 'Xayrli kun'
             : 'Xayrli kech';
+    final user = (context.watch<AuthBloc>().state is AuthAuthenticated)
+        ? (context.watch<AuthBloc>().state as AuthAuthenticated).user
+        : null;
     return ValueListenableBuilder<String>(
       valueListenable: ProfileStore.instance.fullName,
       builder: (_, fullName, __) {
-        final name = fullName.isEmpty ? 'Yuk yuboruvchi' : fullName;
-        final initial = name.trim().isEmpty ? '?' : name.trim()[0].toUpperCase();
-        return Row(
+        return ValueListenableBuilder<String>(
+          valueListenable: ProfileStore.instance.phone,
+          builder: (_, storedPhone, __) {
+            final name = fullName.isEmpty ? 'Yuk yuboruvchi' : fullName;
+            final initial = name.trim().isEmpty ? '?' : name.trim()[0].toUpperCase();
+            final phoneRaw = (user?.phone.isNotEmpty == true) ? user!.phone : storedPhone;
+            final phone = _formatPhone(phoneRaw);
+            return Row(
           children: [
             Container(
               width: 48,
@@ -206,6 +225,8 @@ class _GreetingHeader extends StatelessWidget {
               ),
             ).animate().fadeIn(delay: 200.ms),
           ],
+        );
+          },
         );
       },
     ).animate().fadeIn(duration: 400.ms).slideY(begin: -0.1);

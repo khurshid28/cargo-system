@@ -57,12 +57,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _repo;
 
   Future<void> _onCheck(AuthCheckRequested e, Emitter<AuthState> emit) async {
-    final results = await Future.wait([
-      _repo.currentUser(),
-      Future<void>.delayed(const Duration(milliseconds: 1400)),
-    ]);
-    final user = results.first as AuthUser?;
-    if (user != null) await ProfileStore.instance.save(phone: user.phone);
+    AuthUser? user;
+    try {
+      final results = await Future.wait([
+        _repo.currentUser(),
+        Future<void>.delayed(const Duration(milliseconds: 1400)),
+      ]);
+      user = results.first as AuthUser?;
+    } catch (_) {
+      user = null;
+    }
+    if (user != null) {
+      try { await ProfileStore.instance.save(phone: user.phone); } catch (_) {}
+    }
     emit(user == null ? const AuthUnauthenticated() : AuthAuthenticated(user));
   }
 
