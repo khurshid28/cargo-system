@@ -1,0 +1,78 @@
+name: transcargo_sender
+description: TransCargo — Sender mobile app (yuk beruvchi) — Flutter clean architecture + bloc.
+publish_to: "none"
+version: 0.0.1+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Core
+  flutter_bloc: ^8.1.5
+  bloc: ^8.1.4
+  equatable: ^2.0.5
+  get_it: ^7.7.0
+  injectable: ^2.4.2
+  dartz: ^0.10.1
+
+  # Routing
+  go_router: ^14.0.2
+
+  # Network / persistence
+  dio: ^5.4.3
+  pretty_dio_logger: ^1.3.1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  flutter_secure_storage: ^9.0.0
+
+  # UI / icons / animations
+  iconsax_flutter: ^1.0.0
+  flutter_animate: ^4.5.0
+  shimmer: ^3.0.0
+  cached_network_image: ^3.3.1
+  flutter_native_splash: ^2.4.0
+  lottie: ^3.1.0
+  flutter_map: ^6.1.0
+  latlong2: ^0.9.1
+
+  # i18n
+  intl: ^0.20.2
+
+  # Push
+  firebase_core: ^3.1.0
+  firebase_messaging: ^15.0.1
+
+  # Utils
+  uuid: ^4.4.0
+  flutter_dotenv: ^5.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  bloc_test: ^9.1.7
+  mocktail: ^1.0.3
+  build_runner: ^2.4.10
+  injectable_generator: ^2.6.1
+  hive_generator: ^2.0.1
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - .env
+    - assets/images/
+    - assets/lottie/
+
+flutter_native_splash:
+  color: "#1670f5"
+  image: assets/images/splash_logo.png
+  android_12:
+    color: "#1670f5"
+    image: assets/images/splash_logo.png

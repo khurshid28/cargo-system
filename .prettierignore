@@ -1,0 +1,8 @@
+node_modules
+dist
+build
+coverage
+.next
+.turbo
+**/*.g.dart
+**/*.freezed.dart
