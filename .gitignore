@@ -54,3 +54,6 @@ coverage/
 
 # Docker volumes (if mounted locally)
 infra/data/
+
+# Local Netlify folder
+.netlify
