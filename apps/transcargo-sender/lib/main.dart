@@ -7,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'core/di/injection.dart';
 import 'core/router/app_router.dart';
+import 'core/store/profile_store.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 
@@ -23,6 +24,7 @@ Future<void> main() async {
 
   await Hive.initFlutter();
   await configureDependencies();
+  await ProfileStore.instance.load();
 
   runApp(const TransCargoSenderApp());
   FlutterNativeSplash.remove();

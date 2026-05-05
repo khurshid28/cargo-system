@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/store/profile_store.dart';
 import '../../domain/auth_repository.dart';
 
 // ---- Events ----
@@ -56,7 +57,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _repo;
 
   Future<void> _onCheck(AuthCheckRequested e, Emitter<AuthState> emit) async {
-    final user = await _repo.currentUser();
+    final results = await Future.wait([
+      _repo.currentUser(),
+      Future<void>.delayed(const Duration(milliseconds: 1400)),
+    ]);
+    final user = results.first as AuthUser?;
+    if (user != null) await ProfileStore.instance.save(phone: user.phone);
     emit(user == null ? const AuthUnauthenticated() : AuthAuthenticated(user));
   }
 
@@ -74,6 +80,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthLoading());
     try {
       final user = await _repo.verifyOtp(phone: e.phone, otp: e.otp, role: e.role);
+      await ProfileStore.instance.save(phone: user.phone);
       emit(AuthAuthenticated(user));
     } catch (err) {
       emit(AuthError(err.toString()));
@@ -82,6 +89,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onSignOut(AuthSignOutRequested e, Emitter<AuthState> emit) async {
     await _repo.signOut();
+    await ProfileStore.instance.clear();
     emit(const AuthUnauthenticated());
   }
 }

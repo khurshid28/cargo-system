@@ -5,8 +5,6 @@ class AuthMockDataSource implements AuthRemoteDataSource {
   @override
   Future<void> requestOtp({required String phone, required String role}) async {
     await Future<void>.delayed(const Duration(milliseconds: 400));
-    // ignore: avoid_print
-    print('[MOCK] OTP requested for $phone (role=$role) — use 666666');
   }
 
   @override
@@ -16,8 +14,8 @@ class AuthMockDataSource implements AuthRemoteDataSource {
     required String role,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
-    if (otp != '666666') {
-      throw Exception('Noto‘g‘ri OTP (mock rejimida 666666 ni ishlating)');
+    if (otp.length != 6) {
+      throw Exception("Kod 6 xonali bo'lishi kerak");
     }
     return {
       'accessToken': 'mock.access.token.${DateTime.now().millisecondsSinceEpoch}',
