@@ -44,7 +44,7 @@ class TransCargoSenderApp extends StatelessWidget {
           final router = AppRouter.create(context.read<AuthBloc>());
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
-            title: 'TransCargo — Sender',
+            title: 'Cargo Sender',
             theme: AppTheme.light,
             routerConfig: router,
             localizationsDelegates: const [
