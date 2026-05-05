@@ -73,10 +73,10 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="py-20 sm:py-24 px-5 sm:px-6 relative overflow-hidden">
+    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-500/5 to-transparent pointer-events-none" />
-      <div className="absolute top-1/2 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-brand-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-emerald-500/10 rounded-full blur-3xl" />
+      <div className="absolute top-1/2 left-1/4 w-56 sm:w-96 h-56 sm:h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-56 sm:w-96 h-56 sm:h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative">
         <motion.div
@@ -99,12 +99,12 @@ export function Contact() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-6 sm:gap-8">
+        <div className="grid lg:grid-cols-5 gap-5 sm:gap-8">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-2 space-y-3 sm:space-y-4"
+            className="lg:col-span-2 space-y-3 sm:space-y-4 min-w-0"
           >
             <InfoCard icon={<Call size={22} variant="Bold" />} title={t('contact.phone')} value="+998 95 064 28 27" href="tel:+998950642827" tone="from-blue-500 to-indigo-700" />
             <InfoCard icon={<Sms size={22} variant="Bold" />} title={t('contact.email')} value="hello@cargo.uz" href="mailto:hello@cargo.uz" tone="from-emerald-500 to-teal-700" />
@@ -123,9 +123,9 @@ export function Contact() {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-3 bg-gradient-to-br from-slate-900/80 to-slate-900/40 border border-white/10 rounded-3xl p-5 sm:p-7 backdrop-blur"
+            className="lg:col-span-3 min-w-0 bg-gradient-to-br from-slate-900/80 to-slate-900/40 border border-white/10 rounded-3xl p-4 sm:p-7 backdrop-blur"
           >
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
               <Field label={t('contact.f.name')} icon={<User size={16} />}>
                 <Input required value={form.name} onChange={(e) => set('name', e.target.value)} placeholder={t('contact.f.namePh')} maxLength={60} />
               </Field>
@@ -158,7 +158,7 @@ export function Contact() {
                   onChange={(e) => set('message', e.target.value)}
                   placeholder={t('contact.f.messagePh')}
                   maxLength={500}
-                  className="w-full bg-white/[0.04] border border-white/10 text-slate-100 px-3.5 py-2.5 rounded-xl outline-none transition focus:border-brand-500/60 focus:bg-white/[0.06] placeholder:text-slate-500 resize-none"
+                  className="w-full min-w-0 bg-white/[0.04] border border-white/10 text-slate-100 px-3 sm:px-3.5 py-2.5 rounded-xl outline-none transition focus:border-brand-500/60 focus:bg-white/[0.06] placeholder:text-slate-500 resize-none text-sm sm:text-base"
                 />
               </Field>
             </div>
@@ -213,7 +213,7 @@ function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="w-full bg-white/[0.04] border border-white/10 text-slate-100 px-3.5 py-2.5 rounded-xl outline-none transition focus:border-brand-500/60 focus:bg-white/[0.06] placeholder:text-slate-500"
+      className="w-full min-w-0 bg-white/[0.04] border border-white/10 text-slate-100 px-3 sm:px-3.5 py-2.5 rounded-xl outline-none transition focus:border-brand-500/60 focus:bg-white/[0.06] placeholder:text-slate-500 text-sm sm:text-base"
     />
   );
 }
@@ -244,7 +244,7 @@ function RoleDropdown({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center gap-2.5 bg-white/[0.04] border border-white/10 hover:bg-white/[0.07] text-slate-100 px-3.5 py-2.5 rounded-xl outline-none transition focus:border-brand-500/60"
+        className="w-full min-w-0 flex items-center gap-2 sm:gap-2.5 bg-white/[0.04] border border-white/10 hover:bg-white/[0.07] text-slate-100 px-3 sm:px-3.5 py-2.5 rounded-xl outline-none transition focus:border-brand-500/60"
       >
         <span className={`w-7 h-7 rounded-lg bg-gradient-to-br ${current.tone} grid place-items-center text-white shrink-0`}>
           {current.icon}
@@ -293,13 +293,13 @@ function InfoCard({
   icon: React.ReactNode; title: string; value: string; href?: string; tone: string;
 }) {
   const inner = (
-    <motion.div whileHover={{ y: -4 }} className="bg-slate-900/60 border border-white/10 rounded-2xl p-4 flex items-center gap-3.5 backdrop-blur transition">
-      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tone} grid place-items-center text-white shadow-lg shrink-0`}>
+    <motion.div whileHover={{ y: -4 }} className="bg-slate-900/60 border border-white/10 rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 sm:gap-3.5 backdrop-blur transition">
+      <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${tone} grid place-items-center text-white shadow-lg shrink-0`}>
         {icon}
       </div>
       <div className="min-w-0 flex-1">
-        <div className="text-xs text-slate-400">{title}</div>
-        <div className="font-semibold truncate">{value}</div>
+        <div className="text-[11px] sm:text-xs text-slate-400">{title}</div>
+        <div className="font-semibold truncate text-sm sm:text-base">{value}</div>
       </div>
     </motion.div>
   );
